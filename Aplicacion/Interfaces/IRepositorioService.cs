@@ -13,7 +13,6 @@ namespace Aplicacion.Interfaces
         Task<RespuestaServicio<OwnerEntidad>> CreateOwner(OwnerEntidad owner);
         Task<RespuestaServicio<List<OwnerEntidad>>> ListOwner();
         Task<RespuestaServicio<OwnerEntidad>> EditOwner(OwnerEntidad owner);
-        Task<RespuestaServicio<List<PropertyEntidad>>> ListaPropiedades();
         Task<RespuestaServicio<List<PropertyEntidad>>> ListaPropiedadesPorIdOwner(int idOwner);
         Task<RespuestaServicio<PropertyEntidad>> RegistraPropiedad(PropertyEntidad property);
         Task<RespuestaServicio<PropertyImageEntidad>> RegistraImagenPropiedad(PropertyImageEntidad propertyImagen);

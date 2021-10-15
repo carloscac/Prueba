@@ -77,7 +77,7 @@ namespace ApiInmobiliaria.Controllers
         {
             return await _servicio.ListaPropiedadesPorFiltro(year, idOwner, idProperty);
         }
-               
+
         #endregion
 
         #region Post
@@ -92,14 +92,19 @@ namespace ApiInmobiliaria.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RespuestaServicio<PropertyEntidad>))]
         public async Task<ActionResult> RegistrarProperty(PropertyEntidad property)
         {
-            ManejoArchivos manejoArchivos = new ManejoArchivos();
             RespuestaServicio<PropertyEntidad> respuesta = new RespuestaServicio<PropertyEntidad>();
 
-            foreach (var item in property.lsImagenes)
+            if (property.lsImagenes != null)
             {
-                RespuestaImagen respuestaImagen = manejoArchivos.GuardarImagen(item.PropertyFile, "Property");
-                item.PropertyFile = (respuestaImagen.Realizado) ? respuestaImagen.direccionImagen : item.PropertyFile;
+                ManejoArchivos manejoArchivos = new ManejoArchivos();
+
+                foreach (var item in property.lsImagenes)
+                {
+                    RespuestaImagen respuestaImagen = manejoArchivos.GuardarImagen(item.PropertyFile, "Property");
+                    item.PropertyFile = (respuestaImagen.Realizado) ? respuestaImagen.direccionImagen : item.PropertyFile;
+                }
             }
+
 
             respuesta = await _servicio.RegistraPropiedad(property);
             if (respuesta.Realizado)
@@ -233,7 +238,7 @@ namespace ApiInmobiliaria.Controllers
             return await _servicio.ListOwner();
         }
 
-       
+
 
         /// <summary>
         /// Método para realizar la creación de un owner
@@ -277,11 +282,11 @@ namespace ApiInmobiliaria.Controllers
             return await _servicio.EditOwner(owner);
         }
 
-       
+
         #endregion
 
 
-     
+
 
     }
 }

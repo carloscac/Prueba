@@ -1,5 +1,6 @@
 ﻿using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorio;
+using Aplicacion.Validaciones;
 using Entidades.Entidades;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar el registro del propietario",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -74,7 +75,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar la consulta de propietarios",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -108,7 +109,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar la actualización del propietario",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -118,35 +119,7 @@ namespace Aplicacion.Servicios
 
         #region Propiedades
 
-        /// <summary>
-        /// Método para consultar las propiedades que se encuentran creadas en el sistema
-        /// </summary>
-        /// <returns>Listado de propiedades</returns>
-        public async Task<RespuestaServicio<List<PropertyEntidad>>> ListaPropiedades()
-        {
-            RespuestaServicio<List<PropertyEntidad>> respuesta = new RespuestaServicio<List<PropertyEntidad>>();
-            try
-            {
-
-                respuesta = new RespuestaServicio<List<PropertyEntidad>>
-                {
-                    Mensaje = "Se entrega listado de las propiedades creadas en el sistema",
-                    Realizado = true,
-                    ObjetoRespuesta = await _repositorio.ListaPropiedades()
-                };
-            }
-            catch (Exception Ex)
-            {
-                respuesta = new RespuestaServicio<List<PropertyEntidad>>
-                {
-                    Mensaje = "No se pudo realizar la consulta de propiedades",
-                    Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
-                };
-            }
-            return respuesta;
-        }
-
+     
         /// <summary>
         /// Método para consultar propiedades por Owner
         /// </summary>
@@ -171,7 +144,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar la consulta de propiedades",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -186,8 +159,19 @@ namespace Aplicacion.Servicios
         {
 
             RespuestaServicio<PropertyEntidad> respuesta = new RespuestaServicio<PropertyEntidad>();
+            PropertyValidation validationRules = new PropertyValidation();
             try
             {
+                var resultVal = validationRules.Validate(property);
+                if (!resultVal.IsValid)
+                {
+                    respuesta.Mensajes = new List<MensajesServicio>();
+                    respuesta.Mensaje = "Ocurrieron errores al validar la información ingresada";
+                    respuesta.Realizado = false;
+                    respuesta.ObjetoRespuesta = null;
+                    resultVal.Errors.ForEach(x => respuesta.Mensajes.Add(new MensajesServicio { Mensaje = x.ErrorMessage, IdMensaje = x.ErrorCode}));
+                    return respuesta;
+                }
                 bool bOwnerCreado = await _repositorio.ValidarOwner(property.IdOwner);
                 if (!bOwnerCreado)
                     return new RespuestaServicio<PropertyEntidad>
@@ -224,7 +208,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar el registro de la propiedad",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -277,7 +261,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar el registro de la imagen",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -333,7 +317,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar la actualización de la propiedad",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -386,7 +370,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar la actualización de la propiedad",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;
@@ -434,7 +418,7 @@ namespace Aplicacion.Servicios
                 {
                     Mensaje = "No se pudo realizar la actualización de la propiedad",
                     Realizado = false,
-                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = 1, Mensaje = Ex.Message } }
+                    Mensajes = new List<MensajesServicio> { new MensajesServicio { IdMensaje = "1", Mensaje = Ex.Message } }
                 };
             }
             return respuesta;

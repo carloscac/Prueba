@@ -8,7 +8,7 @@ namespace Entidades.Entidades
 {
     public class MensajesServicio
     {
-        public int IdMensaje { get; set; }
+        public string IdMensaje { get; set; }
         public string Mensaje { get; set; }
     }
 }
