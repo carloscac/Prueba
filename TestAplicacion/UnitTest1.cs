@@ -1,4 +1,3 @@
-using AccesoDatos;
 using ApiInmobiliaria;
 using Aplicacion.Interfaces.Repositorio;
 using Entidades.Entidades;

@@ -93,6 +93,7 @@ namespace ApiInmobiliaria.Controllers
         public async Task<ActionResult> RegistrarProperty(PropertyEntidad property)
         {
             RespuestaServicio<PropertyEntidad> respuesta = new RespuestaServicio<PropertyEntidad>();
+            respuesta.Mensajes = new List<MensajesServicio>();
 
             if (property.lsImagenes != null)
             {
@@ -102,9 +103,13 @@ namespace ApiInmobiliaria.Controllers
                 {
                     RespuestaImagen respuestaImagen = manejoArchivos.GuardarImagen(item.PropertyFile, "Property");
                     item.PropertyFile = (respuestaImagen.Realizado) ? respuestaImagen.direccionImagen : item.PropertyFile;
+                    if (!respuestaImagen.Realizado)
+                        respuesta.Mensajes.Add(new MensajesServicio { IdMensaje = "propertyFile", Mensaje = "Este campo recibe un archivo traducido a base64, el string ingresado no es la representación de una imagen" });
                 }
             }
 
+            if (respuesta.Mensajes.Count > 0)
+                return BadRequest(new RespuestaServicio<PropertyEntidad> { Mensaje = "Se presento un problema al validar las imagenges", Realizado = false, Mensajes = respuesta.Mensajes});
 
             respuesta = await _servicio.RegistraPropiedad(property);
             if (respuesta.Realizado)
