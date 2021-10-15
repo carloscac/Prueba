@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entidades", "Entidades\Enti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aplicacion", "Aplicacion\Aplicacion.csproj", "{52219166-CF26-4970-88BC-DF786083F403}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAplicacion", "TestAplicacion\TestAplicacion.csproj", "{7DCD8291-E7A0-4637-8CF7-F08791DA1936}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAplicacion", "TestAplicacion\TestAplicacion.csproj", "{7DCD8291-E7A0-4637-8CF7-F08791DA1936}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BasedeDatos", "BasedeDatos", "{66C6764C-BF73-416B-A92D-19EB28BD318F}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\Backup\OtraPrueba.bak = ..\..\..\..\..\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\Backup\OtraPrueba.bak
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
